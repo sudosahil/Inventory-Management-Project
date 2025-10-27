@@ -1,6 +1,6 @@
-import javax.swing.*; //
-import java.awt.event.ActionListener; //
-import java.awt.event.ActionEvent; //
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 
@@ -9,20 +9,23 @@ public class InventoryApp {
     JFrame frame;
     JLabel nameL, qtyL, statusL;
     JTextField nameF, qtyF;
-    JButton b_purch, b_sale; // Removed b_view
+    JButton b_purch, b_sale;
 
     JTextArea displayArea;
     JScrollPane scrollPane;
 
     InventoryManager manager;
 
+    /**
+     * Constructor sets up the GUI.
+     */
     public InventoryApp() {
         manager = new InventoryManager();
 
-        frame = new JFrame("Inventory Management"); //
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //
-        frame.setSize(400, 460); // Made window shorter
-        frame.setLayout(null); //
+        frame = new JFrame("Inventory Management");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 460);
+        frame.setLayout(null);
 
         nameL = new JLabel("Product Name:");
         nameF = new JTextField();
@@ -30,38 +33,31 @@ public class InventoryApp {
         qtyF = new JTextField();
         b_purch = new JButton("Purchase Stock");
         b_sale = new JButton("Record Sale");
-        // b_view button is removed
         statusL = new JLabel("Welcome. Data loaded from file.");
 
         displayArea = new JTextArea();
         scrollPane = new JScrollPane(displayArea);
 
-        // Set all the positions (misaligned slightly)
         nameL.setBounds(20, 20, 100, 20);
-        nameF.setBounds(130, 22, 240, 20); // y=22
-        qtyL.setBounds(22, 50, 100, 20); // x=22
-        qtyF.setBounds(130, 53, 240, 20); // y=53
+        nameF.setBounds(130, 22, 240, 20);
+        qtyL.setBounds(22, 50, 100, 20);
+        qtyF.setBounds(130, 53, 240, 20);
         b_purch.setBounds(20, 90, 170, 30);
-        b_sale.setBounds(200, 91, 170, 30); // y=91
-        // b_view is removed
-        statusL.setBounds(18, 135, 350, 20); // x=18, y=135
-        scrollPane.setBounds(21, 165, 350, 240); // x=21, y=165
+        b_sale.setBounds(200, 91, 170, 30);
+        statusL.setBounds(18, 135, 350, 20);
+        scrollPane.setBounds(21, 165, 350, 240);
 
-        // Add to frame
         frame.add(nameL);
         frame.add(nameF);
         frame.add(qtyL);
         frame.add(qtyF);
         frame.add(b_purch);
         frame.add(b_sale);
-        // removed b_view
         frame.add(statusL);
         frame.add(scrollPane);
 
-        // --- Event Listeners ---
-
         b_purch.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { //
+            public void actionPerformed(ActionEvent e) {
                 String name = nameF.getText();
                 String qtyStr = qtyF.getText();
 
@@ -73,7 +69,7 @@ public class InventoryApp {
                 try {
                     int qty = Integer.parseInt(qtyStr);
 
-                    if (name.equals("") || qty <= 0) { //
+                    if (name.equals("") || qty <= 0) {
                         statusL.setText("Invalid name or quantity.");
                         return;
                     }
@@ -83,17 +79,16 @@ public class InventoryApp {
                     nameF.setText("");
                     qtyF.setText("");
 
-                    refreshDisplay(); // Auto-refresh
+                    refreshDisplay();
 
                 } catch (NumberFormatException ex) {
-                    // Handle exception
                     statusL.setText("Error: Quantity must be a number.");
                 }
             }
         });
 
         b_sale.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { //
+            public void actionPerformed(ActionEvent e) {
                 String name = nameF.getText();
                 String qtyStr = qtyF.getText();
 
@@ -105,7 +100,7 @@ public class InventoryApp {
                         return;
                     }
 
-                    if (name.equals("") || qty <= 0) { //
+                    if (name.equals("") || qty <= 0) {
                         statusL.setText("Invalid name or quantity.");
                         return;
                     }
@@ -114,20 +109,17 @@ public class InventoryApp {
                     nameF.setText("");
                     qtyF.setText("");
 
-                    refreshDisplay(); // Auto-refresh
+                    refreshDisplay();
 
                 } catch (NumberFormatException ex) {
-                    // Handle exception
                     statusL.setText("Error: Quantity must be a number.");
                 }
             }
         });
 
-        // Listener for b_view is removed
+        frame.setVisible(true);
 
-        frame.setVisible(true); //
-
-        refreshDisplay(); // Load data on start
+        refreshDisplay();
     }
 
     /**
@@ -138,7 +130,9 @@ public class InventoryApp {
         displayArea.setText(inventoryText);
     }
 
-    // Main method to start
+    /**
+     * Main method to run the application.
+     */
     public static void main(String[] args) {
         new InventoryApp();
     }
